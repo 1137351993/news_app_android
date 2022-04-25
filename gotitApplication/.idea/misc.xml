@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/box/gotitApplication/gotitApplication/app/src/main/res/layouts/attention/layout/attention_main.xml" value="0.1875" />
+        <entry key="..\:/box/gotitApplication/gotitApplication/app/src/main/res/layouts/attention/layout/hero_group_item.xml" value="0.1875" />
+        <entry key="..\:/box/gotitApplication/gotitApplication/app/src/main/res/layouts/attention/layout/hero_list_item.xml" value="0.1875" />
+        <entry key="..\:/box/gotitApplication/gotitApplication/app/src/main/res/layouts/fragment/layout/fragment_tab.xml" value="0.1875" />
+        <entry key="..\:/box/gotitApplication/gotitApplication/app/src/main/res/layouts/home/layout/list_view_item.xml" value="0.1875" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
