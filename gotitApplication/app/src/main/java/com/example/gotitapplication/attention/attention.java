@@ -1,12 +1,16 @@
 package com.example.gotitapplication.attention;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.gotitapplication.ContentActivity;
@@ -33,11 +37,14 @@ public class attention extends AppCompatActivity {
     private ExpandableListView lol_hero_list;
     private MsExpandableListAdapter msAdapter = null;
     private String account;
+    private Button add;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.attention_main);
+
+        add=(Button)findViewById(R.id.attention_package_add);
 
         Intent intent=getIntent();
         account = intent.getStringExtra("account");
@@ -68,6 +75,23 @@ public class attention extends AppCompatActivity {
             }
         });
 
+        //添加收藏夹按钮
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final EditText et = new EditText(attention.this);
+                new AlertDialog.Builder(attention.this).setTitle("请输入收藏夹名称")
+                        .setView(et)
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                //按下确定键后的事件
+                                Toast.makeText(getApplicationContext(), et.getText().toString(),Toast.LENGTH_LONG).show();
+                                et.getText().toString();
+                            }
+                        }).setNegativeButton("取消",null).show();
+            }
+        });
     }
 
     private void pull_package(){
