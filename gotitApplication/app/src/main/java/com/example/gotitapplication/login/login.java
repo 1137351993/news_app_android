@@ -192,7 +192,7 @@ public class login extends AppCompatActivity {
                     temp=json;
                     OkHttpClient client = new OkHttpClient(); //创建http客户端
                     Request request = new Request.Builder()
-                            .url("http://10.0.2.2:8989/users/login") //后端请求接口的地址
+                            .url("http://123.56.220.66:8989/users/login") //后端请求接口的地址
                             .post(RequestBody.create(MediaType.parse("application/json"),json))
                             .build(); //创建http请求
                     Response response = client.newCall(request).execute(); //执行发送指令

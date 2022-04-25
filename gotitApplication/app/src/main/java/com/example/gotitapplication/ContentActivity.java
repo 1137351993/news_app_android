@@ -168,7 +168,7 @@ public class ContentActivity extends AppCompatActivity {
                     params.add("id",id);
                     OkHttpClient client = new OkHttpClient(); //创建http客户端
                     Request request = new Request.Builder()
-                            .url("http://10.0.2.2:8989/comment_news/init") //后端请求接口的地址
+                            .url("http://123.56.220.66:8989/comment_news/init") //后端请求接口的地址
                             .post(params.build())
                             .build(); //创建http请求
                     Response response = client.newCall(request).execute(); //执行发送指令
@@ -206,7 +206,7 @@ public class ContentActivity extends AppCompatActivity {
                     params.add("account",account);
                     OkHttpClient client = new OkHttpClient(); //创建http客户端
                     Request request = new Request.Builder()
-                            .url("http://10.0.2.2:8989/users/pull") //后端请求接口的地址
+                            .url("http://123.56.220.66:8989/users/pull") //后端请求接口的地址
                             .post(params.build())
                             .build(); //创建http请求
                     Response response = client.newCall(request).execute(); //执行发送指令
@@ -218,7 +218,7 @@ public class ContentActivity extends AppCompatActivity {
                     String json = "{\"user_name\":\""+user_name+"\",\"id\":\""+id+"\",\"content\":\""+comment_content+"\"}";
                     OkHttpClient client2 = new OkHttpClient(); //创建http客户端
                     Request request2 = new Request.Builder()
-                            .url("http://10.0.2.2:8989/comment_news/push") //后端请求接口的地址
+                            .url("http://123.56.220.66:8989/comment_news/push") //后端请求接口的地址
                             .post(RequestBody.create(MediaType.parse("application/json"),json))
                             .build(); //创建http请求
                     client2.newCall(request2).execute(); //执行发送指令
@@ -279,7 +279,7 @@ public class ContentActivity extends AppCompatActivity {
                     String json = "{\"id\":\""+id+"\",\"account\":\""+account+"\",\"type\":"+itemName+"}";
                     OkHttpClient client = new OkHttpClient(); //创建http客户端
                     Request request = new Request.Builder()
-                            .url("http://10.0.2.2:8989/history/push") //后端请求接口的地址
+                            .url("http://123.56.220.66:8989/history/push") //后端请求接口的地址
                             .post(RequestBody.create(MediaType.parse("application/json"),json))
                             .build(); //创建http请求
                     client.newCall(request).execute(); //执行发送指令
@@ -304,7 +304,7 @@ public class ContentActivity extends AppCompatActivity {
                     String json = "{\"id\":\""+id+"\",\"account\":\""+account+"\",\"type\":"+itemName+"}";
                     OkHttpClient client = new OkHttpClient(); //创建http客户端
                     Request request = new Request.Builder()
-                            .url("http://10.0.2.2:8989/attention/push") //后端请求接口的地址
+                            .url("http://123.56.220.66:8989/attention/push") //后端请求接口的地址
                             .post(RequestBody.create(MediaType.parse("application/json"),json))
                             .build(); //创建http请求
                     client.newCall(request).execute(); //执行发送指令
@@ -322,7 +322,7 @@ public class ContentActivity extends AppCompatActivity {
     }
 
     private String response(int itemName){
-        String address = "http://10.0.2.2:8989/entertainment_news/pull_content";
+        String address = "http://123.56.220.66:8989/entertainment_news/pull_content";
         switch(itemName){
             case ITEM_SOCIETY:
                 break;

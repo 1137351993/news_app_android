@@ -9,8 +9,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.gotitapplication.ContentActivity;
 import com.example.gotitapplication.R;
 import com.example.gotitapplication.home.Title;
+import com.example.gotitapplication.news_list;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -54,7 +56,14 @@ public class attention extends AppCompatActivity {
         lol_hero_list.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                Toast.makeText(mContext, "你点击了：" + titleList.get(groupPosition).get(childPosition).getTitle(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mContext, "你点击了：" + titleList.get(groupPosition).get(childPosition).getTitle(), Toast.LENGTH_SHORT).show();
+//                return true;
+                Intent intent = new Intent(attention.this, ContentActivity.class);
+                Title title = titleList.get(groupPosition).get(childPosition);
+                intent.putExtra("itemName",1);
+                intent.putExtra("id", title.getId());
+                intent.putExtra("account", account);
+                startActivity(intent);
                 return true;
             }
         });
@@ -70,7 +79,7 @@ public class attention extends AppCompatActivity {
                     params.add("account",account);
                     OkHttpClient client = new OkHttpClient(); //创建http客户端
                     Request request = new Request.Builder()
-                            .url("http://10.0.2.2:8989/attention/pull_package") //后端请求接口的地址
+                            .url("http://123.56.220.66:8989/attention/pull_package") //后端请求接口的地址
                             .post(params.build())
                             .build(); //创建http请求
                     Response response = client.newCall(request).execute(); //执行发送指令
@@ -90,7 +99,7 @@ public class attention extends AppCompatActivity {
                         params_item.add("package_id",""+package_id);
                         OkHttpClient client_item = new OkHttpClient(); //创建http客户端
                         Request request_item = new Request.Builder()
-                                .url("http://10.0.2.2:8989/entertainment_news/pull_attention") //后端请求接口的地址
+                                .url("http://123.56.220.66:8989/entertainment_news/pull_attention") //后端请求接口的地址
                                 .post(params_item.build())
                                 .build(); //创建http请求
                         Response response_item = client_item.newCall(request_item).execute(); //执行发送指令

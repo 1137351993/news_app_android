@@ -110,7 +110,7 @@ public class PersonalFragment extends Fragment {
                     params.add("account",account);
                     OkHttpClient client = new OkHttpClient(); //创建http客户端
                     Request request = new Request.Builder()
-                            .url("http://10.0.2.2:8989/users/pull") //后端请求接口的地址
+                            .url("http://123.56.220.66:8989/users/pull") //后端请求接口的地址
                             .post(params.build())
                             .build(); //创建http请求
                     Response response = client.newCall(request).execute(); //执行发送指令

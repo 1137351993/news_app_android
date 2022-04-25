@@ -106,8 +106,6 @@ public class TabFragment extends Fragment {
             public void onRefresh() {
                 refreshLayout.setRefreshing(true);
                 itemName = parseString(mTitle);
-                Toast toast= Toast.makeText(view.getContext(), "temp:"+mTitle, Toast.LENGTH_SHORT);
-                toast.show();
                 if(itemName!=0)
                     pull();
                 else{
@@ -118,8 +116,8 @@ public class TabFragment extends Fragment {
 
         refreshLayout.setRefreshing(true);
         itemName = parseString(mTitle);
-        Toast toast= Toast.makeText(view.getContext(), "temp:"+mTitle, Toast.LENGTH_SHORT);
-        toast.show();
+//        Toast toast= Toast.makeText(view.getContext(), "temp:"+mTitle, Toast.LENGTH_SHORT);
+//        toast.show();
         if(itemName!=0)
             pull();
         else{
@@ -189,7 +187,7 @@ public class TabFragment extends Fragment {
      * 输入不同的类型选项，返回对应的 URL 链接
      */
     private String response(int itemName){
-        String address = "http://10.0.2.2:8989/entertainment_news/pull";
+        String address = "http://123.56.220.66:8989/entertainment_news/pull";
         switch(itemName){
             case ITEM_SOCIETY:
                 break;
@@ -372,7 +370,7 @@ public class TabFragment extends Fragment {
                     params.add("account",account);
                     OkHttpClient client = new OkHttpClient(); //创建http客户端
                     Request request = new Request.Builder()
-                            .url("http://10.0.2.2:8989/entertain_news/compare") //后端请求接口的地址
+                            .url("http://123.56.220.66:8989/entertainment_news/compare") //后端请求接口的地址
                             .post(params.build())
                             .build(); //创建http请求
                     Response response = client.newCall(request).execute(); //执行发送指令
