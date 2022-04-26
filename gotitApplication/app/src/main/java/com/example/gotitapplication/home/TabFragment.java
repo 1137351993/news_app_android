@@ -102,25 +102,27 @@ public class TabFragment extends Fragment {
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 if ((firstVisibleItem + visibleItemCount) == totalItemCount && firstVisibleItem!=0) {
                     Log.d("ListView", "##### 滚动到底部 ######");
-                    int position = listView.getFirstVisiblePosition();
-                    int y = listView.getChildAt(0).getTop();
-                    page+=10;
-                    if(itemName!=-1)
-                        pull();
-                    else{
-                        pull_attention();
-                    }
-                    System.out.println("位置："+position);
-                    adapter = new TitleAdapter(getContext(), R.layout.list_view_item, titleList);
-                    listView.setAdapter(adapter);
-                    listView.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            listView.requestFocusFromTouch();//获取焦点
-                            listView.setSelectionFromTop(listView.getHeaderViewsCount()+position, y);//10是你需要定位的位置
+                    if(!(titleList.size()<10)) {
+                        int position = listView.getFirstVisiblePosition();
+                        int y = listView.getChildAt(0).getTop();
+                        page += 10;
+                        if (itemName != -1)
+                            pull();
+                        else {
+                            pull_attention();
                         }
-                    });
-                    //listView.setSelectionFromTop(position, y);
+                        System.out.println("位置：" + position);
+                        adapter = new TitleAdapter(getContext(), R.layout.list_view_item, titleList);
+                        listView.setAdapter(adapter);
+                        listView.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                listView.requestFocusFromTouch();//获取焦点
+                                listView.setSelectionFromTop(listView.getHeaderViewsCount() + position, y);//10是你需要定位的位置
+                            }
+                        });
+                        //listView.setSelectionFromTop(position, y);
+                    }
                 }
             }
         });
