@@ -1,5 +1,7 @@
 package com.example.gotitapplication.attention;
 
+import static com.example.gotitapplication.MainActivity2.account;
+
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -36,7 +38,7 @@ public class attention extends AppCompatActivity {
     private Context mContext;
     private ExpandableListView lol_hero_list;
     private MsExpandableListAdapter msAdapter = null;
-    private String account;
+    private String account,package_name;
     private Button add;
 
     @Override
@@ -53,6 +55,8 @@ public class attention extends AppCompatActivity {
 
         mContext = attention.this;
         lol_hero_list = (ExpandableListView) findViewById(R.id.lol_hero_list);
+
+        //System.out.println("收藏夹内容"+titleList.get(1).get(1).getTitle()+"\n"+titleList.get(2).get(1).getTitle());
 
         msAdapter = new MsExpandableListAdapter(gData,titleList,mContext);
         lol_hero_list.setAdapter(msAdapter);
@@ -86,8 +90,13 @@ public class attention extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 //按下确定键后的事件
-                                Toast.makeText(getApplicationContext(), et.getText().toString(),Toast.LENGTH_LONG).show();
-                                et.getText().toString();
+                                package_name=et.getText().toString();
+                                push_package();
+                                Toast.makeText(getApplicationContext(), "添加收藏夹"+et.getText().toString()+"成功",Toast.LENGTH_LONG).show();
+                                finish();
+                                Intent intent = new Intent(getApplicationContext(), attention.class);
+                                intent.putExtra("account", account);
+                                startActivity(intent);
                             }
                         }).setNegativeButton("取消",null).show();
             }
@@ -119,6 +128,7 @@ public class attention extends AppCompatActivity {
                         gData.add(new GroupBean(package_id, name));
 
 
+                        System.out.println("收藏夹编号："+package_id);
                         FormBody.Builder params_item = new FormBody.Builder();
                         params_item.add("package_id",""+package_id);
                         OkHttpClient client_item = new OkHttpClient(); //创建http客户端
@@ -138,10 +148,37 @@ public class attention extends AppCompatActivity {
                             String description=jsonObject_item.getString("source");
                             String imageurl=jsonObject_item.getString("img_url_2");
                             title_item.add(new Title(id, title, description, imageurl));
-                            titleList.add(title_item);
-                        }
 
+                        }
+                        titleList.add(title_item);
                     }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+        try  {
+            thread.join();
+        }  catch  ( InterruptedException e) {
+            e . printStackTrace () ;
+        }
+    }
+
+    private void push_package(){
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() { //类型2——Param型
+                try {
+                    FormBody.Builder params = new FormBody.Builder();
+                    params.add("account",account);
+                    params.add("name",package_name);
+                    OkHttpClient client = new OkHttpClient(); //创建http客户端
+                    Request request = new Request.Builder()
+                            .url("http://123.56.220.66:8989/attention/push_package") //后端请求接口的地址
+                            .post(params.build())
+                            .build(); //创建http请求
+                    client.newCall(request).execute(); //执行发送指令
                 }catch (Exception e){
                     e.printStackTrace();
                 }

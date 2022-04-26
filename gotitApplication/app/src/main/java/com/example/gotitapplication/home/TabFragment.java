@@ -43,25 +43,13 @@ import static com.example.gotitapplication.MainActivity2.account;
 
 public class TabFragment extends Fragment {
 
-    private static final int ITEM_SOCIETY = 1;
-    private static final int ITEM_COUNTY = 2;
-    private static final int ITEM_INTERNATION = 3;
-    private static final int ITEM_FUN = 4;
-//    private static final int ITEM_SPORT = 5;
-//    private static final int ITEM_NBA = 6;
-//    private static final int ITEM_FOOTBALL = 7;
-//    private static final int ITEM_TECHNOLOGY = 8;
-//    private static final int ITEM_WORK = 9;
-//    private static final int  ITEM_APPLE= 10;
-//    private static final int  ITEM_WAR= 11;
-//    private static final int  ITEM_INTERNET= 12;
-//    private static final int  ITEM_TREVAL= 13;
-//    private static final int  ITEM_HEALTH= 14;
-//    private static final int  ITEM_STRANGE= 15;
-//    private static final int  ITEM_LOOKER= 16;
-//    private static final int  ITEM_VR= 17;
-//    private static final int  ITEM_IT= 18;
-
+    private static final int ITEM_SPORT = 0;            //运动
+    private static final int ITEM_ENTERTAINMENT = 1;    //娱乐
+    private static final int ITEM_INTERNATION = 2;      //国际
+    private static final int ITEM_WAR= 3;               //军事
+    private static final int ITEM_TECHNOLOGY = 4;       //数码
+    private static final int ITEM_LOOKER= 5;            //眼界
+    private static final int ITEM_FINANCE = 6;          //财经
 
     private List<Title> titleList = new ArrayList<Title>();
     private ListView listView;
@@ -106,7 +94,7 @@ public class TabFragment extends Fragment {
             public void onRefresh() {
                 refreshLayout.setRefreshing(true);
                 itemName = parseString(mTitle);
-                if(itemName!=0)
+                if(itemName!=-1)
                     pull();
                 else{
                     pull_attention();
@@ -118,7 +106,7 @@ public class TabFragment extends Fragment {
         itemName = parseString(mTitle);
 //        Toast toast= Toast.makeText(view.getContext(), "temp:"+mTitle, Toast.LENGTH_SHORT);
 //        toast.show();
-        if(itemName!=0)
+        if(itemName!=-1)
             pull();
         else{
 
@@ -184,131 +172,26 @@ public class TabFragment extends Fragment {
   //  }
 
     /**
-     * 输入不同的类型选项，返回对应的 URL 链接
-     */
-    private String response(int itemName){
-        String address = "http://123.56.220.66:8989/entertainment_news/pull";
-        switch(itemName){
-            case ITEM_SOCIETY:
-                break;
-            case ITEM_COUNTY:
-                address = address.replaceAll("entertainment_news","international_news");
-                break;
-//            case ITEM_INTERNATION:
-//                address = address.replaceAll("social","world");
-//                break;
-//            case ITEM_FUN:
-//                address = address.replaceAll("social","huabian");
-//                break;
-//            case ITEM_SPORT:
-//                address = address.replaceAll("social","tiyu");
-//                break;
-//            case ITEM_NBA:
-//                address = address.replaceAll("social","nba");
-//                break;
-//            case ITEM_FOOTBALL:
-//                address = address.replaceAll("social","football");
-//                break;
-//            case ITEM_TECHNOLOGY:
-//                address = address.replaceAll("social","keji");
-//                break;
-//            case ITEM_WORK:
-//                address = address.replaceAll("social","startup");
-//                break;
-//            case ITEM_APPLE:
-//                address = address.replaceAll("social","apple");
-//                break;
-//            case ITEM_WAR:
-//                address = address.replaceAll("social","military");
-//                break;
-//            case ITEM_INTERNET:
-//                address = address.replaceAll("social","mobile");
-//                break;
-//            case ITEM_TREVAL:
-//                address = address.replaceAll("social","travel");
-//                break;
-//            case ITEM_HEALTH:
-//                address = address.replaceAll("social","health");
-//                break;
-//            case ITEM_STRANGE:
-//                address = address.replaceAll("social","qiwen");
-//                break;
-//            case ITEM_LOOKER:
-//                address = address.replaceAll("social","meinv");
-//                break;
-//            case ITEM_VR:
-//                address = address.replaceAll("social","vr");
-//                break;
-//            case ITEM_IT:
-//                address = address.replaceAll("social","it");
-//                break;
-            default:
-        }
-        return address;
-    }
-
-    /**
      * 通过 actionbar.getTitle() 的参数，返回对应的 ItemName
      */
     private int parseString(String text){
-        if (text.equals("社会新闻")){
-            return ITEM_SOCIETY;
-        }
-        else if (text.equals("国内新闻")){
-            return ITEM_COUNTY;
-        }
-        if (text.equals("国际新闻")){
+        if (text.equals("运动新闻")){
+            return ITEM_SPORT;
+        }else if (text.equals("娱乐新闻")){
+            return ITEM_ENTERTAINMENT;
+        }else if (text.equals("国际新闻")){
             return ITEM_INTERNATION;
+        }else if (text.equals("军事新闻")){
+            return ITEM_WAR;
+        }else if (text.equals("数码新闻")){
+            return ITEM_TECHNOLOGY;
+        }else if (text.equals("眼界新闻")){
+            return ITEM_LOOKER;
+        }else if (text.equals("财经新闻")){
+            return ITEM_FINANCE;
+        }else{
+            return -1;
         }
-        if (text.equals("娱乐新闻")){
-            return ITEM_FUN;
-        }
-        else{
-            return 0;
-        }
-//
-//        if (text.equals("体育新闻")){
-//            return ITEM_SPORT;
-//        }
-//        if (text.equals("NBA新闻")){
-//            return ITEM_NBA;
-//        }
-//        if (text.equals("足球新闻")){
-//            return ITEM_FOOTBALL;
-//        }
-//        if (text.equals("科技新闻")){
-//            return ITEM_TECHNOLOGY;
-//        }
-//        if (text.equals("创业新闻")){
-//            return ITEM_WORK;
-//        }
-//        if (text.equals("苹果新闻")){
-//            return ITEM_APPLE;
-//        }
-//        if (text.equals("军事新闻")){
-//            return ITEM_WAR;
-//        }
-//        if (text.equals("移动互联")){
-//            return ITEM_INTERNET;
-//        }
-//        if (text.equals("旅游资讯")){
-//            return ITEM_TREVAL;
-//        }
-//        if (text.equals("健康知识")){
-//            return ITEM_HEALTH;
-//        }
-//        if (text.equals("奇闻异事")){
-//            return ITEM_STRANGE;
-//        }
-//        if (text.equals("美女图片")){
-//            return ITEM_LOOKER;
-//        }
-//        if (text.equals("VR科技")){
-//            return ITEM_VR;
-//        }
-//        if (text.equals("IT资讯")){
-//            return ITEM_IT;
-//        }
     }
 
     private void pull(){
@@ -316,12 +199,12 @@ public class TabFragment extends Fragment {
             @Override
             public void run() { //类型2——Param型
                 try {
-                    String url = response(itemName);
                     FormBody.Builder params = new FormBody.Builder();
                     params.add("page","0");
+                    params.add("type", ""+itemName);
                     OkHttpClient client = new OkHttpClient(); //创建http客户端
                     Request request = new Request.Builder()
-                            .url(url) //后端请求接口的地址
+                            .url("http://123.56.220.66:8989/entertainment_news/pull") //后端请求接口的地址
                             .post(params.build())
                             .build(); //创建http请求
                     Response response = client.newCall(request).execute(); //执行发送指令

@@ -41,7 +41,7 @@ public class HomeFragment extends Fragment{
     private ImageButton imageButton;
     private EditText editText;
     private List<String> mTitles;
-    private String [] title={"社会新闻","国内新闻","国际新闻","娱乐新闻"};
+    private String [] title={"运动新闻","娱乐新闻","国际新闻","军事新闻","数码新闻","眼界新闻","财经新闻"};
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
         View view=inflater.inflate(R.layout.home_fragment,container,false);
