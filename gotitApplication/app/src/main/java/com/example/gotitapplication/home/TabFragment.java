@@ -116,61 +116,6 @@ public class TabFragment extends Fragment {
         return view;
     }
 
-//    public void requestNew(int itemName) {
-//
-//        // 根据返回到的 URL 链接进行申请和返回数据
-//        String address = response(itemName);    // key
-//        HttpUtil.sendOkHttpRequest(address, new Callback() {
-//            @Override
-//            public void onFailure(Call call, IOException e) {
-//                getActivity().runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        Toast.makeText(getContext(), "新闻加载失败", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//            }
-//
-//            @Override
-//            public void onResponse(Call call, Response response) throws IOException {
-//                final String responseText = response.body().string();
-//                final NewsList newlist = Utility.parseJsonWithGson(responseText);
-//                final int code = newlist.code;
-//                final String msg = newlist.msg;
-//                if (code == 200) {
-//                    titleList.clear();
-//                    for (News news : newlist.newsList) {
-//                        Title title = new Title(news.title, news.description, news.picUrl, news.url);
-//                        titleList.add(title);
-//                    }
-//
-//                    getActivity().runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            adapter.notifyDataSetChanged();
-//                            listView.setSelection(0);
-//                            refreshLayout.setRefreshing(false);
-//                        }
-//
-//                        ;
-//                    });
-//                } else {
-//                    getActivity().runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            Toast.makeText(getContext(), "数据错误返回", Toast.LENGTH_SHORT).show();
-//                            refreshLayout.setRefreshing(false);
-//                        }
-//                    });
-//                }
-//
-//
-//            }
-//        });
-//
-
-  //  }
-
     /**
      * 通过 actionbar.getTitle() 的参数，返回对应的 ItemName
      */

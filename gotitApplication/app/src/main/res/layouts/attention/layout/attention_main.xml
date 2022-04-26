@@ -25,11 +25,20 @@
             android:text="添加收藏夹"/>
     </RelativeLayout>
 
-    <ExpandableListView
-        android:id="@+id/lol_hero_list"
-        android:layout_below="@+id/guanzhu"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/news_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:childDivider="#dddddd"/>
+        android:layout_below="@+id/guanzhu"
+        tools:ignore="MissingConstraints">
+
+            <com.example.gotitapplication.util.CustomNestedExpandableListView
+                android:id="@+id/lol_hero_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/guanzhu"
+                android:childDivider="#dddddd" />
+
+    </androidx.core.widget.NestedScrollView>
 
 </RelativeLayout>

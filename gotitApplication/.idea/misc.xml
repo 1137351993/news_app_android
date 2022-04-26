@@ -8,7 +8,11 @@
         <entry key="..\:/box/gotitApplication/gotitApplication/app/src/main/res/layouts/attention/layout/hero_list_item.xml" value="0.1875" />
         <entry key="..\:/box/gotitApplication/gotitApplication/app/src/main/res/layouts/fragment/layout/fragment_tab.xml" value="0.1875" />
         <entry key="..\:/box/gotitApplication/gotitApplication/app/src/main/res/layouts/home/layout/list_view_item.xml" value="0.1875" />
-        <entry key="..\:/box/news_app_android/gotitApplication/app/src/main/res/layouts/attention/layout/attention_main.xml" value="0.1875" />
+        <entry key="..\:/box/news_app_android/gotitApplication/app/src/main/res/layouts/attention/layout/attention_main.xml" value="0.1" />
+        <entry key="..\:/box/news_app_android/gotitApplication/app/src/main/res/layouts/attention/layout/hero_group_item.xml" value="0.1875" />
+        <entry key="..\:/box/news_app_android/gotitApplication/app/src/main/res/layouts/home/layout/activity_content.xml" value="0.1875" />
+        <entry key="..\:/box/news_app_android/gotitApplication/app/src/main/res/layouts/home/layout/home_activity_main.xml" value="0.1875" />
+        <entry key="..\:/box/news_app_android/gotitApplication/app/src/main/res/layouts/home/layout/list_view_item.xml" value="0.1875" />
       </map>
     </option>
   </component>

@@ -4,8 +4,10 @@ import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
 
 import static com.example.gotitapplication.MainActivity2.account;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -65,12 +67,16 @@ public class ContentActivity extends AppCompatActivity {
     private String account;
     private String comment_content;
     private String user_name;
+    private String[] attention_package;
+    private int[] package_id;
+    private int select_size=1;
 
     private int itemName;
 
     private TextView title_view, source_view, datetime_view;
     private Button button_attention, button_comment;
     private EditText comment;
+    private AlertDialog dialog;
 
     private List<comment_news> commentList = new ArrayList<comment_news>();
 
@@ -152,9 +158,38 @@ public class ContentActivity extends AppCompatActivity {
         button_attention.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                push_attention();
-                Toast toast= Toast.makeText(ContentActivity.this, "关注成功"+itemName, Toast.LENGTH_SHORT);
-                toast.show();
+                pull_home_package();
+                System.out.println(attention_package[1]);
+                AlertDialog.Builder builder = new AlertDialog.Builder(ContentActivity.this)//设置单选框列表
+                        .setTitle("设置字体的大小")   //设置标题
+                        .setSingleChoiceItems(attention_package, select_size, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                select_size=i; //在OnClick方法中得到被点击的序号 i
+                            }
+                        })
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {//在对话框中设置“确定”按钮
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                //为TextView设置在单选对话框中选择的字体大小
+//                                attention_package[select_size].toString();
+                                push_attention();
+                                //设置好字体大小后关闭单选对话框
+                                dialog.dismiss();
+                                Toast toast= Toast.makeText(ContentActivity.this, "关注成功"+itemName, Toast.LENGTH_SHORT);
+                                toast.show();
+                            }
+                        })
+                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {//在对话框中设置”取消按钮“
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialog.dismiss();
+                            }
+                        });
+                dialog = builder.create();
+                dialog.show();
+
+
             }
         });
     }
@@ -241,12 +276,11 @@ public class ContentActivity extends AppCompatActivity {
             @Override
             public void run() { //类型2——Param型
                 try {
-                    String url=response(itemName);
                     FormBody.Builder params = new FormBody.Builder();
                     params.add("id",id);
                     OkHttpClient client = new OkHttpClient(); //创建http客户端
                     Request request = new Request.Builder()
-                            .url(url) //后端请求接口的地址
+                            .url("http://123.56.220.66:8989/entertainment_news/pull_content") //后端请求接口的地址
                             .post(params.build())
                             .build(); //创建http请求
                     Response response = client.newCall(request).execute(); //执行发送指令
@@ -301,7 +335,7 @@ public class ContentActivity extends AppCompatActivity {
             @Override
             public void run() { //类型2——Param型
                 try {
-                    String json = "{\"id\":\""+id+"\",\"account\":\""+account+"\",\"type\":"+itemName+"}";
+                    String json = "{\"id\":\""+id+"\",\"account\":\""+account+"\",\"package_id\":"+package_id[select_size]+"}";
                     OkHttpClient client = new OkHttpClient(); //创建http客户端
                     Request request = new Request.Builder()
                             .url("http://123.56.220.66:8989/attention/push") //后端请求接口的地址
@@ -321,125 +355,40 @@ public class ContentActivity extends AppCompatActivity {
         }
     }
 
-    private String response(int itemName){
-        String address = "http://123.56.220.66:8989/entertainment_news/pull_content";
-        switch(itemName){
-            case ITEM_SOCIETY:
-                break;
-            case ITEM_COUNTY:
-                address = address.replaceAll("entertainment_news","international_news");
-                break;
-//            case ITEM_INTERNATION:
-//                address = address.replaceAll("social","world");
-//                break;
-//            case ITEM_FUN:
-//                address = address.replaceAll("social","huabian");
-//                break;
-//            case ITEM_SPORT:
-//                address = address.replaceAll("social","tiyu");
-//                break;
-//            case ITEM_NBA:
-//                address = address.replaceAll("social","nba");
-//                break;
-//            case ITEM_FOOTBALL:
-//                address = address.replaceAll("social","football");
-//                break;
-//            case ITEM_TECHNOLOGY:
-//                address = address.replaceAll("social","keji");
-//                break;
-//            case ITEM_WORK:
-//                address = address.replaceAll("social","startup");
-//                break;
-//            case ITEM_APPLE:
-//                address = address.replaceAll("social","apple");
-//                break;
-//            case ITEM_WAR:
-//                address = address.replaceAll("social","military");
-//                break;
-//            case ITEM_INTERNET:
-//                address = address.replaceAll("social","mobile");
-//                break;
-//            case ITEM_TREVAL:
-//                address = address.replaceAll("social","travel");
-//                break;
-//            case ITEM_HEALTH:
-//                address = address.replaceAll("social","health");
-//                break;
-//            case ITEM_STRANGE:
-//                address = address.replaceAll("social","qiwen");
-//                break;
-//            case ITEM_LOOKER:
-//                address = address.replaceAll("social","meinv");
-//                break;
-//            case ITEM_VR:
-//                address = address.replaceAll("social","vr");
-//                break;
-//            case ITEM_IT:
-//                address = address.replaceAll("social","it");
-//                break;
-            default:
+    private void pull_home_package(){
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() { //类型2——Param型
+                try {
+                    FormBody.Builder params = new FormBody.Builder();
+                    params.add("account",account);
+                    OkHttpClient client = new OkHttpClient(); //创建http客户端
+                    Request request = new Request.Builder()
+                            .url("http://123.56.220.66:8989/attention/pull_all_package") //后端请求接口的地址
+                            .post(params.build())
+                            .build(); //创建http请求
+                    Response response = client.newCall(request).execute(); //执行发送指令
+                    //获取后端回复过来的返回值(如果有的话)
+                    String responseData = response.body().string(); //获取后端接口返回过来的JSON格式的结果
+                    JSONArray jsonArray = new JSONArray(responseData); //将文本格式的JSON转换为JSON数组
+                    package_id = new int[jsonArray.length()];
+                    attention_package = new String[jsonArray.length()];
+                    for(int i=0;i<jsonArray.length();i++){
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        package_id[i] = jsonObject.getInt("package_id");
+                        attention_package[i] = jsonObject.getString("name");
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+        try  {
+            thread.join();
+        }  catch  ( InterruptedException e) {
+            e . printStackTrace () ;
         }
-        return address;
     }
 
-    /**
-     * 通过 actionbar.getTitle() 的参数，返回对应的 ItemName
-     */
-    private int parseString(String text){
-        if (text.equals("社会新闻")){
-            return ITEM_SOCIETY;
-        }
-        if (text.equals("国内新闻")){
-            return ITEM_COUNTY;
-        }
-//        if (text.equals("国际新闻")){
-//            return ITEM_INTERNATION;
-//        }
-//        if (text.equals("娱乐新闻")){
-//            return ITEM_FUN;
-//        }
-//        if (text.equals("体育新闻")){
-//            return ITEM_SPORT;
-//        }
-//        if (text.equals("NBA新闻")){
-//            return ITEM_NBA;
-//        }
-//        if (text.equals("足球新闻")){
-//            return ITEM_FOOTBALL;
-//        }
-//        if (text.equals("科技新闻")){
-//            return ITEM_TECHNOLOGY;
-//        }
-//        if (text.equals("创业新闻")){
-//            return ITEM_WORK;
-//        }
-//        if (text.equals("苹果新闻")){
-//            return ITEM_APPLE;
-//        }
-//        if (text.equals("军事新闻")){
-//            return ITEM_WAR;
-//        }
-//        if (text.equals("移动互联")){
-//            return ITEM_INTERNET;
-//        }
-//        if (text.equals("旅游资讯")){
-//            return ITEM_TREVAL;
-//        }
-//        if (text.equals("健康知识")){
-//            return ITEM_HEALTH;
-//        }
-//        if (text.equals("奇闻异事")){
-//            return ITEM_STRANGE;
-//        }
-//        if (text.equals("美女图片")){
-//            return ITEM_LOOKER;
-//        }
-//        if (text.equals("VR科技")){
-//            return ITEM_VR;
-//        }
-//        if (text.equals("IT资讯")){
-//            return ITEM_IT;
-//        }
-        return ITEM_SOCIETY;
-    }
 }
