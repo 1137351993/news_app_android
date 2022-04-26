@@ -8,9 +8,12 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -56,6 +59,7 @@ public class TabFragment extends Fragment {
     private TitleAdapter adapter;
     private DrawerLayout drawerLayout;
     private SwipeRefreshLayout refreshLayout;
+    private static int page=0;
 
     private int itemName;
     private String mTitle;
@@ -70,10 +74,11 @@ public class TabFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_tab, container, false);
         refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_layout);
         refreshLayout.setColorSchemeColors(getResources().getColor(R.color.purple_200));
+
         listView = (ListView) view.findViewById(R.id.list_view);
         adapter = new TitleAdapter(getContext(), R.layout.list_view_item, titleList);
-
         listView.setAdapter(adapter);
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             Intent intent = new Intent(getContext(), ContentActivity.class);
 
@@ -87,6 +92,39 @@ public class TabFragment extends Fragment {
             }
         });
 
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+            }
+
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if ((firstVisibleItem + visibleItemCount) == totalItemCount && firstVisibleItem!=0) {
+                    Log.d("ListView", "##### 滚动到底部 ######");
+                    int position = listView.getFirstVisiblePosition();
+                    int y = listView.getChildAt(0).getTop();
+                    page+=10;
+                    if(itemName!=-1)
+                        pull();
+                    else{
+                        pull_attention();
+                    }
+                    System.out.println("位置："+position);
+                    adapter = new TitleAdapter(getContext(), R.layout.list_view_item, titleList);
+                    listView.setAdapter(adapter);
+                    listView.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            listView.requestFocusFromTouch();//获取焦点
+                            listView.setSelectionFromTop(listView.getHeaderViewsCount()+position, y);//10是你需要定位的位置
+                        }
+                    });
+                    //listView.setSelectionFromTop(position, y);
+                }
+            }
+        });
+
         drawerLayout = (DrawerLayout) view.findViewById(R.id.drawer_layout);
 
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -94,15 +132,19 @@ public class TabFragment extends Fragment {
             public void onRefresh() {
                 refreshLayout.setRefreshing(true);
                 itemName = parseString(mTitle);
+                page+=10;
+                titleList.clear();
                 if(itemName!=-1)
                     pull();
                 else{
                     pull_attention();
                 }
+                adapter = new TitleAdapter(getContext(), R.layout.list_view_item, titleList);
+                listView.setAdapter(adapter);
             }
         });
 
-        refreshLayout.setRefreshing(true);
+        //refreshLayout.setRefreshing(true);
         itemName = parseString(mTitle);
 //        Toast toast= Toast.makeText(view.getContext(), "temp:"+mTitle, Toast.LENGTH_SHORT);
 //        toast.show();
@@ -145,7 +187,8 @@ public class TabFragment extends Fragment {
             public void run() { //类型2——Param型
                 try {
                     FormBody.Builder params = new FormBody.Builder();
-                    params.add("page","0");
+                    //System.out.println("页数："+page+"新闻数量"+titleList.size());
+                    params.add("page",""+page);
                     params.add("type", ""+itemName);
                     OkHttpClient client = new OkHttpClient(); //创建http客户端
                     Request request = new Request.Builder()
@@ -156,7 +199,7 @@ public class TabFragment extends Fragment {
                     //获取后端回复过来的返回值(如果有的话)
                     String responseData = response.body().string(); //获取后端接口返回过来的JSON格式的结果
                     JSONArray jsonArray = new JSONArray(responseData); //将文本格式的JSON转换为JSON数组
-                    titleList.clear();
+                    //titleList.clear();
                     for(int i=0;i<jsonArray.length();i++){
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                         String id=jsonObject.getString("id");
