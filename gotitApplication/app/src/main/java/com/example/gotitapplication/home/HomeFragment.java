@@ -55,10 +55,9 @@ public class HomeFragment extends Fragment{
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String key="%"+editText.getText()+"%";
-                Log.w(TAG, "run:ulawhedaljsbcalsbcliwyehfljdksbcxhuchzlkjcxiiiiiiii "+key);
+                //Log.w(TAG, "run:ulawhedaljsbcalsbcliwyehfljdksbcxhuchzlkjcxiiiiiiii "+key);
                 Intent intent = new Intent(getActivity(), news_list.class);
-                intent.putExtra("key", key);
+                intent.putExtra("key", editText.getText().toString());
                 intent.putExtra("operationName", 4);
                 intent.putExtra("account", account);
                 startActivity(intent);

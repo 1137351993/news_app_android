@@ -40,7 +40,13 @@
     android:layout_height="wrap_content"
     android:layout_alignLeft="@+id/massage"
     android:paddingTop="30dp"
+    android:orientation="vertical"
     android:layout_below="@+id/massage">
+    <Button
+        android:id="@+id/login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="登录/注册"/>
     <Button
         android:id="@+id/editor_message"
         android:layout_width="wrap_content"
@@ -55,7 +61,7 @@
         android:id="@+id/attention_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="我的关注"/>
+        android:text="我的收藏"/>
     <Button
     android:id="@+id/tuichu"
     android:layout_width="wrap_content"

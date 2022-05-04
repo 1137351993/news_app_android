@@ -36,7 +36,7 @@ public class MainActivity2 extends AppCompatActivity implements RadioGroup.OnChe
         mRadioGroup = findViewById(R.id.radio_group);
         mRadioGroup.setOnCheckedChangeListener(this);
         homeRb = findViewById(R.id.rd_home);
-        phoneRb = findViewById(R.id.rd_community);
+//        phoneRb = findViewById(R.id.rd_community);
         personalRb = findViewById(R.id.rd_personal);
         homeRb.setChecked(true);
 
@@ -56,9 +56,9 @@ public class MainActivity2 extends AppCompatActivity implements RadioGroup.OnChe
 
         homeRb.setCompoundDrawables(null, home, null, null);
 
-        Drawable phone = ContextCompat.getDrawable(this, R.drawable.selector_community_drawable);
-        phone.setBounds(0, 0, 80, 80);
-        phoneRb.setCompoundDrawables(null, phone, null, null);
+//        Drawable phone = ContextCompat.getDrawable(this, R.drawable.selector_community_drawable);
+//        phone.setBounds(0, 0, 80, 80);
+//        phoneRb.setCompoundDrawables(null, phone, null, null);
 
         Drawable personal = ContextCompat.getDrawable(this, R.drawable.selector_personal_drawable);
         personal.setBounds(0, 0, 80, 80);
@@ -78,14 +78,14 @@ public class MainActivity2 extends AppCompatActivity implements RadioGroup.OnChe
                     transaction.show(mHomeFragment);
                 }
                 break;
-            case R.id.rd_community:
-                if (mCommunityFragment == null) {
-                    mCommunityFragment = new CommunityFragment();
-                    transaction.add(R.id.fragment_container, mCommunityFragment);
-                } else {
-                    transaction.show(mCommunityFragment);
-                }
-                break;
+//            case R.id.rd_community:
+//                if (mCommunityFragment == null) {
+//                    mCommunityFragment = new CommunityFragment();
+//                    transaction.add(R.id.fragment_container, mCommunityFragment);
+//                } else {
+//                    transaction.show(mCommunityFragment);
+//                }
+//                break;
             case R.id.rd_personal:
                 if (mPersonalFragment == null) {
                     mPersonalFragment = new PersonalFragment();
@@ -102,9 +102,9 @@ public class MainActivity2 extends AppCompatActivity implements RadioGroup.OnChe
         if(mHomeFragment!=null){
             transaction.hide(mHomeFragment);
         }
-        if(mCommunityFragment!=null){
-            transaction.hide(mCommunityFragment);
-        }
+//        if(mCommunityFragment!=null){
+//            transaction.hide(mCommunityFragment);
+//        }
         if(mPersonalFragment!=null){
             transaction.hide(mPersonalFragment);
         }

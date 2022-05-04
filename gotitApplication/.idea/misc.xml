@@ -3,6 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/11373/AndroidStudioProjects/news_app_android2.0/gotitApplication/app/src/main/res/layouts/attention/layout/attention_main.xml" value="0.1" />
+        <entry key="..\:/Users/11373/AndroidStudioProjects/news_app_android2.0/gotitApplication/app/src/main/res/layouts/fragment/layout/home_fragment.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/11373/AndroidStudioProjects/news_app_android2.0/gotitApplication/app/src/main/res/layouts/home/layout/activity_content.xml" value="0.1" />
+        <entry key="..\:/Users/11373/AndroidStudioProjects/news_app_android2.0/gotitApplication/app/src/main/res/layouts/home/layout/home_activity_main.xml" value="0.10462962962962963" />
+        <entry key="..\:/Users/11373/AndroidStudioProjects/news_app_android2.0/gotitApplication/app/src/main/res/layouts/home/layout/list_view_item.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/11373/AndroidStudioProjects/news_app_android2.0/gotitApplication/app/src/main/res/layouts/login/layout/login.xml" value="0.1" />
+        <entry key="..\:/Users/11373/AndroidStudioProjects/news_app_android2.0/gotitApplication/app/src/main/res/layouts/news_list/layout/news_list.xml" value="0.1" />
+        <entry key="..\:/Users/11373/AndroidStudioProjects/news_app_android2.0/gotitApplication/app/src/main/res/layouts/users/layout/person_layout.xml" value="0.1" />
         <entry key="..\:/box/gotitApplication/gotitApplication/app/src/main/res/layouts/attention/layout/attention_main.xml" value="0.1875" />
         <entry key="..\:/box/gotitApplication/gotitApplication/app/src/main/res/layouts/attention/layout/hero_group_item.xml" value="0.1875" />
         <entry key="..\:/box/gotitApplication/gotitApplication/app/src/main/res/layouts/attention/layout/hero_list_item.xml" value="0.1875" />

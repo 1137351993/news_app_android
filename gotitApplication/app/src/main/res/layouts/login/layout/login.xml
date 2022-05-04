@@ -104,7 +104,7 @@
             android:id="@+id/qq_forgetpwd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="忘记密码"
+            android:text="游客登录"
             android:textColor="@color/black" />
 
         <View

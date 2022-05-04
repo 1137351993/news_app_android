@@ -36,7 +36,7 @@ import okhttp3.Response;
 import static com.example.gotitapplication.MainActivity2.account;
 
 public class PersonalFragment extends Fragment {
-    private Button button_exit, button_history, button_attention, button_message;
+    private Button button_login,button_exit, button_history, button_attention, button_message;
     private ImageView user_image;
     private String user_n, user_p, user_name;
     private TextView textView;
@@ -50,6 +50,7 @@ public class PersonalFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        button_login=(Button) view.findViewById(R.id.login);
         button_exit=(Button) view.findViewById(R.id.tuichu);//退出登陆
         button_history=(Button) view.findViewById(R.id.history_button);
         button_attention=(Button) view.findViewById(R.id.attention_button);
@@ -59,6 +60,14 @@ public class PersonalFragment extends Fragment {
         init();
         textView=(TextView)view.findViewById(R.id.user_name);
         textView.setText(user_name);
+
+        button_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getActivity(), login.class);
+                startActivity(intent);
+            }
+        });
 
         button_exit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,6 +84,7 @@ public class PersonalFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), news_list.class);
                 intent.putExtra("account", account);
                 intent.putExtra("operationName", 1);
+                intent.putExtra("key","历史记录");
                 startActivity(intent);
             }
         });

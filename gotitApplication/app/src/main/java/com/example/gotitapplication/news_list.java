@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
@@ -40,6 +41,7 @@ public class news_list extends Activity {
     private DrawerLayout drawerLayout;
     private SwipeRefreshLayout refreshLayout;
     private Toolbar toolbar;
+    private TextView list_title;
 
     private static final int ITEM_SOCIETY = 1;
     private static final int ITEM_COUNTY = 2;
@@ -74,6 +76,10 @@ public class news_list extends Activity {
 //        toolbar=(Toolbar)findViewById(R.id.news_list_title);
 //        toolbar.setTitle("我的历史记录");
 
+        list_title = (TextView) findViewById(R.id.list_title_name);
+        list_title.setText(key);
+        key="%"+key+"%";
+
         refreshLayout = (SwipeRefreshLayout) findViewById(R.id.news_swipe_layout);
         refreshLayout.setColorSchemeColors(getResources().getColor(R.color.purple_200));
         listView = (ListView) findViewById(R.id.news_list_view);
@@ -94,7 +100,7 @@ public class news_list extends Activity {
             }
         });
 
-        drawerLayout = (DrawerLayout) findViewById(R.id.news_drawer_layout);
+        //drawerLayout = (DrawerLayout) findViewById(R.id.news_drawer_layout);
 
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

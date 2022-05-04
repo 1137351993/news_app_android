@@ -14,7 +14,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
-            android:text="我的关注"
+            android:text="我的收藏"
             android:textSize="23dp"/>
         <Button
             android:id="@+id/attention_package_add"

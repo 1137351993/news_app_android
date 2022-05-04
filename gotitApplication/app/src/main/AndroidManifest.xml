@@ -13,12 +13,12 @@
         <activity android:name=".login.signup"></activity>
         <activity android:name=".ContentActivity"></activity>
 <!--        <activity android:name=""></activity>-->MainActivity2
-        <activity android:name=".MainActivity2"></activity>
+        <activity android:name=".login.login"></activity>
         <activity android:name=".users.PersonInfo"></activity>
         <activity android:name=".news_list"></activity>
         <activity android:name=".attention.attention"></activity>
         <activity
-            android:name=".login.login"
+            android:name=".MainActivity2"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

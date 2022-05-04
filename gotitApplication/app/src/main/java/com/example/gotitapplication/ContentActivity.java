@@ -69,7 +69,7 @@ public class ContentActivity extends AppCompatActivity {
     private String user_name;
     private String[] attention_package;
     private int[] package_id;
-    private int select_size=1;
+    private int select_size=0;
 
     private int itemName;
 
@@ -161,7 +161,7 @@ public class ContentActivity extends AppCompatActivity {
                 pull_home_package();
                 System.out.println(attention_package[1]);
                 AlertDialog.Builder builder = new AlertDialog.Builder(ContentActivity.this)//设置单选框列表
-                        .setTitle("设置字体的大小")   //设置标题
+                        .setTitle("请选择收藏夹")   //设置标题
                         .setSingleChoiceItems(attention_package, select_size, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
