@@ -136,7 +136,9 @@ public class TabFragment extends Fragment {
                 itemName = parseString(mTitle);
                 page+=10;
                 titleList.clear();
-                if(itemName!=-1)
+                if(itemName==0&&account!=null)
+                    pull_cf();
+                else if(itemName!=-1)
                     pull();
                 else{
                     pull_attention();
@@ -150,7 +152,11 @@ public class TabFragment extends Fragment {
         itemName = parseString(mTitle);
 //        Toast toast= Toast.makeText(view.getContext(), "temp:"+mTitle, Toast.LENGTH_SHORT);
 //        toast.show();
-        if(itemName!=-1)
+        if(itemName==0&&account!=null) {
+            System.out.println("jdoainsjdnauw");
+            pull_cf();
+        }
+        else if(itemName!=-1)
             pull();
         else{
             pull_attention();
@@ -179,6 +185,58 @@ public class TabFragment extends Fragment {
             return ITEM_FINANCE;
         }else{
             return -1;
+        }
+    }
+
+    private void pull_cf(){
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() { //类型2——Param型
+                try {
+                    FormBody.Builder params = new FormBody.Builder();
+                    //System.out.println("页数："+page+"新闻数量"+titleList.size());
+                    params.add("account",account);
+                    params.add("page",""+page);
+                    params.add("type", ""+itemName);
+                    OkHttpClient client = new OkHttpClient(); //创建http客户端
+                    Request request = new Request.Builder()
+                            .url("http://123.56.220.66:8989/entertainment_news/pull_cf") //后端请求接口的地址
+                            .post(params.build())
+                            .build(); //创建http请求
+                    Response response = client.newCall(request).execute(); //执行发送指令
+                    //获取后端回复过来的返回值(如果有的话)
+                    String responseData = response.body().string(); //获取后端接口返回过来的JSON格式的结果
+                    JSONArray jsonArray = new JSONArray(responseData); //将文本格式的JSON转换为JSON数组
+                    //titleList.clear();
+                    for(int i=0;i<jsonArray.length();i++){
+                        System.out.println("awdjisncaiciajismxkozmaoidjoaksxnoiaxmkmz");
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        String id=jsonObject.getString("id");
+                        String title=jsonObject.getString("title");
+                        String description=jsonObject.getString("source");
+                        String imageurl=jsonObject.getString("img_url_2");
+
+                        Title title1 = new Title(id, title, description, imageurl);
+                        titleList.add(title1);
+                    }
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            adapter.notifyDataSetChanged();
+                            listView.setSelection(0);
+                            refreshLayout.setRefreshing(false);
+                        };
+                    });
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+        try  {
+            thread.join();
+        }  catch  ( InterruptedException e) {
+            e . printStackTrace () ;
         }
     }
 

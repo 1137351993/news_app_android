@@ -41,7 +41,7 @@ public class login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
-
+        account=null;
         findId();
         //QQ账号输入状态监听
         et_qqnum.addTextChangedListener(new TextWatcher() {

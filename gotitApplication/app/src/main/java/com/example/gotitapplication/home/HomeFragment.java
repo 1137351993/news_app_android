@@ -76,7 +76,8 @@ public class HomeFragment extends Fragment{
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
-        pull_home_package();
+        if(account!=null)
+            pull_home_package();
         fragmentList=new ArrayList<>();
         mTitles=new ArrayList<>();
         for(int i=0;i<title.length;i++){
