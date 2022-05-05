@@ -19,6 +19,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.gotitapplication.R;
 import com.example.gotitapplication.attention.GroupBean;
+import com.example.gotitapplication.login.login;
 import com.example.gotitapplication.news_list;
 import com.google.android.material.tabs.TabLayout;
 
@@ -56,11 +57,16 @@ public class HomeFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 //Log.w(TAG, "run:ulawhedaljsbcalsbcliwyehfljdksbcxhuchzlkjcxiiiiiiii "+key);
-                Intent intent = new Intent(getActivity(), news_list.class);
-                intent.putExtra("key", editText.getText().toString());
-                intent.putExtra("operationName", 4);
-                intent.putExtra("account", account);
-                startActivity(intent);
+                if(editText.getText().toString().equals("")){
+                    Toast toast= Toast.makeText(getActivity(), "请输入搜索内容", Toast.LENGTH_SHORT);
+                    toast.show();
+                }else {
+                    Intent intent = new Intent(getActivity(), news_list.class);
+                    intent.putExtra("key", editText.getText().toString());
+                    intent.putExtra("operationName", 4);
+                    intent.putExtra("account", account);
+                    startActivity(intent);
+                }
             }
         });
 

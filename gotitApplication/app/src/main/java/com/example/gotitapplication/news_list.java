@@ -41,7 +41,7 @@ public class news_list extends Activity {
     private DrawerLayout drawerLayout;
     private SwipeRefreshLayout refreshLayout;
     private Toolbar toolbar;
-    private TextView list_title;
+    private TextView list_title,tips_text;
 
     private static final int ITEM_SOCIETY = 1;
     private static final int ITEM_COUNTY = 2;
@@ -55,7 +55,7 @@ public class news_list extends Activity {
     private int operationName;
     private String account;
     private String id;
-    private String key;
+    private String key,text;
 //    private String mTitle;
 //
 //    //这个构造方法是便于各导航同时调用一个fragment
@@ -71,55 +71,69 @@ public class news_list extends Activity {
         Intent intent=getIntent();
         operationName = intent.getIntExtra("operationName", 0);
         account = intent.getStringExtra("account");
-        key = intent.getStringExtra("key");
+        text = intent.getStringExtra("key");
 
 //        toolbar=(Toolbar)findViewById(R.id.news_list_title);
 //        toolbar.setTitle("我的历史记录");
 
-        list_title = (TextView) findViewById(R.id.list_title_name);
-        list_title.setText(key);
-        key="%"+key+"%";
-
-        refreshLayout = (SwipeRefreshLayout) findViewById(R.id.news_swipe_layout);
-        refreshLayout.setColorSchemeColors(getResources().getColor(R.color.purple_200));
-        listView = (ListView) findViewById(R.id.news_list_view);
-        adapter = new TitleAdapter(this, R.layout.list_view_item, titleList);
-        listView.setAdapter(adapter);
-
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            Intent intent = new Intent(news_list.this, ContentActivity.class);
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Title title = titleList.get(position);
-                intent.putExtra("itemName",itemName);
-                intent.putExtra("id", title.getId());
-                intent.putExtra("account", account);
-                startActivity(intent);
-            }
-        });
-
-        //drawerLayout = (DrawerLayout) findViewById(R.id.news_drawer_layout);
-
-        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                titleList.clear();
-                refreshLayout.setRefreshing(true);
-                if(operationName==4){
-                    pull_select();
-                }else{
-                    pull_history_news();
-                }
-            }
-        });
-
-        refreshLayout.setRefreshing(true);
+        key="%"+text+"%";
         if(operationName==4){
             pull_select();
         }else{
             pull_history_news();
+        }
+
+        if(titleList.isEmpty()){
+            setContentView(R.layout.tips);
+            list_title = (TextView) findViewById(R.id.list_title_name);
+            list_title.setText(text);
+            tips_text=(TextView) findViewById(R.id.tips_text);
+            if(text.equals("历史记录"))
+                tips_text.setText("暂无历史记录");
+            else
+                tips_text.setText("没有搜索结果");
+        }
+        else {
+            list_title = (TextView) findViewById(R.id.list_title_name);
+            list_title.setText(text);
+
+
+            refreshLayout = (SwipeRefreshLayout) findViewById(R.id.news_swipe_layout);
+            refreshLayout.setColorSchemeColors(getResources().getColor(R.color.purple_200));
+            listView = (ListView) findViewById(R.id.news_list_view);
+            adapter = new TitleAdapter(this, R.layout.list_view_item, titleList);
+            listView.setAdapter(adapter);
+
+
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                Intent intent = new Intent(news_list.this, ContentActivity.class);
+
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Title title = titleList.get(position);
+                    intent.putExtra("itemName", itemName);
+                    intent.putExtra("id", title.getId());
+                    intent.putExtra("account", account);
+                    startActivity(intent);
+                }
+            });
+
+            //drawerLayout = (DrawerLayout) findViewById(R.id.news_drawer_layout);
+
+            refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    titleList.clear();
+                    refreshLayout.setRefreshing(true);
+                    if (operationName == 4) {
+                        pull_select();
+                    } else {
+                        pull_history_news();
+                    }
+                }
+            });
+
+            refreshLayout.setRefreshing(true);
         }
     }
 
@@ -156,14 +170,18 @@ public class news_list extends Activity {
                         Title title1 = new Title(id, title, description, imageurl);
                         titleList.add(title1);
                     }
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            adapter.notifyDataSetChanged();
-                            listView.setSelection(0);
-                            refreshLayout.setRefreshing(false);
-                        };
-                    });
+                    if(titleList.size()!=0) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                adapter.notifyDataSetChanged();
+                                listView.setSelection(0);
+                                refreshLayout.setRefreshing(false);
+                            }
+
+                            ;
+                        });
+                    }
                 }catch (Exception e){
                     e.printStackTrace();
                 }
@@ -204,14 +222,18 @@ public class news_list extends Activity {
                         Title title1 = new Title(id, title, description, imageurl);
                         titleList.add(title1);
                     }
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            adapter.notifyDataSetChanged();
-                            listView.setSelection(0);
-                            refreshLayout.setRefreshing(false);
-                        };
-                    });
+                    if(titleList.size()!=0) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                adapter.notifyDataSetChanged();
+                                listView.setSelection(0);
+                                refreshLayout.setRefreshing(false);
+                            }
+
+                            ;
+                        });
+                    }
                 }catch (Exception e){
                     e.printStackTrace();
                 }

@@ -153,7 +153,6 @@ public class TabFragment extends Fragment {
         if(itemName!=-1)
             pull();
         else{
-
             pull_attention();
         }
 

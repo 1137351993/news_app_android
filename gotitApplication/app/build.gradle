@@ -38,6 +38,7 @@ android {
                             'src/main/res/drawables/selector',
                             'src/main/res/drawables/users',
                             'src/main/res/drawables/temp',
+                            'src/main/res/drawables/news_list',
                             'src/main/res/drawables',
 
                             'src/main/res/layouts/home',

@@ -168,6 +168,14 @@ public class login extends AppCompatActivity {
 
         //忘记密码
 
+        tv_forgetpwd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(login.this, MainActivity2.class);
+                startActivity(intent);
+            }
+        });
+
         tv_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
