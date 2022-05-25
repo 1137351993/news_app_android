@@ -1,0 +1,62 @@
+<!-- res/layout/dialog_customize.xml-->
+<!-- 自定义View -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:ignore="MissingDefaultResource">
+    <TextView
+        android:id="@+id/tip_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="25dp"
+        android:textSize="20dp"
+        android:text="*名称："/>
+    <EditText
+        android:id="@+id/set_package_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:layout_marginRight="30dp"
+        android:layout_toRightOf="@+id/tip_name"
+        android:layout_alignBottom="@+id/tip_name"/>
+    <TextView
+        android:id="@+id/tip_visual"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="添加至首页分类："
+        android:textSize="20dp"
+        android:layout_below="@+id/tip_name"
+        android:layout_alignLeft="@+id/tip_name"
+        android:layout_marginTop="20dp"/>
+
+    <RadioGroup
+        android:id="@+id/rg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tip_visual"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="0dp"
+        android:layout_toRightOf="@+id/tip_visual"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/yes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:textSize="20dp"
+            android:text="是" />
+
+        <RadioButton
+            android:id="@+id/no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:textSize="20dp"
+            android:text="否" />
+    </RadioGroup>
+
+</RelativeLayout>

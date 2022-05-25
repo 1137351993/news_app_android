@@ -43,10 +43,9 @@
                 android:id="@+id/descr_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="8sp"
-                android:layout_marginRight="10dp"
-                android:layout_alignBottom="@+id/title_pic"
-                android:layout_alignParentLeft="true"
+                android:textSize="15dp"
+                android:layout_alignRight="@+id/title_text"
+                android:layout_below="@+id/title_text"
                 />
 
         </RelativeLayout>

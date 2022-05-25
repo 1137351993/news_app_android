@@ -70,6 +70,7 @@ public class ContentActivity extends AppCompatActivity {
     private String[] attention_package;
     private int[] package_id;
     private int select_size=0;
+    private int attention_key=0;//0为未收藏，1为已收藏
 
     private int itemName;
 
@@ -106,6 +107,10 @@ public class ContentActivity extends AppCompatActivity {
         String[] news = content.split("@");
         for(int i=0;i<news.length;i++){
             if(news[i].indexOf("https")!=-1) {
+                TextView textView = new TextView(this);
+                textView.setText("\n");
+                linearLayout.addView(textView);
+
                 ImageView imageView=new ImageView(this);
                 linearLayout.addView(imageView);
                 Glide.with(this).
@@ -154,41 +159,51 @@ public class ContentActivity extends AppCompatActivity {
             }
         });
 
-
+        get_attention();
+        if(attention_key==1) button_attention.setText("已收藏");
         button_attention.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                pull_home_package();
-                System.out.println(attention_package[1]);
-                AlertDialog.Builder builder = new AlertDialog.Builder(ContentActivity.this)//设置单选框列表
-                        .setTitle("请选择收藏夹")   //设置标题
-                        .setSingleChoiceItems(attention_package, select_size, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                select_size=i; //在OnClick方法中得到被点击的序号 i
-                            }
-                        })
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {//在对话框中设置“确定”按钮
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                //为TextView设置在单选对话框中选择的字体大小
+                if(attention_key==1){
+                    delete_attention();
+                    button_attention.setText("收藏");
+                    attention_key=0;
+                    Toast toast= Toast.makeText(ContentActivity.this, "取消收藏", Toast.LENGTH_SHORT);
+                    toast.show();
+                }else {
+                    pull_home_package();
+                    System.out.println(attention_package[1]);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ContentActivity.this)//设置单选框列表
+                            .setTitle("请选择收藏夹")   //设置标题
+                            .setSingleChoiceItems(attention_package, select_size, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    select_size = i; //在OnClick方法中得到被点击的序号 i
+                                }
+                            })
+                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {//在对话框中设置“确定”按钮
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    //为TextView设置在单选对话框中选择的字体大小
 //                                attention_package[select_size].toString();
-                                push_attention();
-                                //设置好字体大小后关闭单选对话框
-                                dialog.dismiss();
-                                Toast toast= Toast.makeText(ContentActivity.this, "关注成功"+itemName, Toast.LENGTH_SHORT);
-                                toast.show();
-                            }
-                        })
-                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {//在对话框中设置”取消按钮“
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialog.dismiss();
-                            }
-                        });
-                dialog = builder.create();
-                dialog.show();
-
+                                    push_attention();
+                                    //设置好字体大小后关闭单选对话框
+                                    dialog.dismiss();
+                                    Toast toast = Toast.makeText(ContentActivity.this, "收藏成功", Toast.LENGTH_SHORT);
+                                    toast.show();
+                                    button_attention.setText("已收藏");
+                                    attention_key=1;
+                                }
+                            })
+                            .setNegativeButton("取消", new DialogInterface.OnClickListener() {//在对话框中设置”取消按钮“
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    dialog = builder.create();
+                    dialog.show();
+                }
 
             }
         });
@@ -338,7 +353,62 @@ public class ContentActivity extends AppCompatActivity {
                     String json = "{\"id\":\""+id+"\",\"account\":\""+account+"\",\"package_id\":"+package_id[select_size]+"}";
                     OkHttpClient client = new OkHttpClient(); //创建http客户端
                     Request request = new Request.Builder()
-                            .url("http://123.56.220.66:8989/attention/push") //后端请求接口的地址
+                            .url("http://123.56.220.66:8989/attention/push_attention") //后端请求接口的地址
+                            .post(RequestBody.create(MediaType.parse("application/json"),json))
+                            .build(); //创建http请求
+                    client.newCall(request).execute(); //执行发送指令
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+        try  {
+            thread.join();
+        }  catch  ( InterruptedException e) {
+            e . printStackTrace () ;
+        }
+    }
+
+    private void get_attention(){
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() { //类型2——Param型
+                try {
+                    String json = "{\"id\":\""+id+"\",\"account\":\""+account+"\"}";
+                    OkHttpClient client = new OkHttpClient(); //创建http客户端
+                    Request request = new Request.Builder()
+                            .url("http://123.56.220.66:8989/attention/get_attention") //后端请求接口的地址
+                            .post(RequestBody.create(MediaType.parse("application/json"),json))
+                            .build(); //创建http请求
+                    Response response = client.newCall(request).execute(); //执行发送指令
+                    //获取后端回复过来的返回值(如果有的话)
+                    String responseData = response.body().string(); //获取后端接口返回过来的JSON格式的结果
+                    JSONObject jsonObject = new JSONObject(responseData); //将文本格式的JSON转换为JSON数组
+                    if(jsonObject!=null) attention_key=1;
+                    else attention_key=0;
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+        try  {
+            thread.join();
+        }  catch  ( InterruptedException e) {
+            e . printStackTrace () ;
+        }
+    }
+
+    private void delete_attention(){
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() { //类型2——Param型
+                try {
+                    String json = "{\"id\":\""+id+"\",\"account\":\""+account+"\"}";
+                    OkHttpClient client = new OkHttpClient(); //创建http客户端
+                    Request request = new Request.Builder()
+                            .url("http://123.56.220.66:8989/attention/delete_attention") //后端请求接口的地址
                             .post(RequestBody.create(MediaType.parse("application/json"),json))
                             .build(); //创建http请求
                     client.newCall(request).execute(); //执行发送指令
@@ -390,5 +460,6 @@ public class ContentActivity extends AppCompatActivity {
             e . printStackTrace () ;
         }
     }
+
 
 }

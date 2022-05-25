@@ -103,6 +103,16 @@ public class attention extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        pull_package();
+        msAdapter = new MsExpandableListAdapter(gData,titleList,mContext);
+        lol_hero_list.setAdapter(msAdapter);
+        lol_hero_list.expandGroup(0);
+        System.out.println("MainActivity:onRestart");
+    }
+
     private void pull_package(){
         Thread thread = new Thread(new Runnable() {
             @Override
@@ -125,10 +135,11 @@ public class attention extends AppCompatActivity {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                         String name=jsonObject.getString("name");
                         int package_id=jsonObject.getInt("package_id");
-                        gData.add(new GroupBean(package_id, name));
+                        int visual=jsonObject.getInt("visual");
+                        gData.add(new GroupBean(package_id, name, visual));
 
 
-                        System.out.println("收藏夹编号："+package_id);
+                        System.out.println("收藏夹编号："+package_id+"\n可见"+visual);
                         FormBody.Builder params_item = new FormBody.Builder();
                         params_item.add("package_id",""+package_id);
                         OkHttpClient client_item = new OkHttpClient(); //创建http客户端

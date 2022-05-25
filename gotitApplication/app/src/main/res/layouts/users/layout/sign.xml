@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
+        android:id="@+id/user_massage"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:background="@color/lightblue"
-        tools:ignore="MissingConstraints">
+        android:background="@color/lightblue">
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -19,44 +19,123 @@
             android:layout_centerHorizontal="true">
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/userpic"
                 android:layout_width="130dp"
                 android:layout_height="130dp"
                 android:background="@drawable/ss"
                 android:src="@drawable/circle_images" />
 
             <TextView
+                android:id="@+id/user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/imageView"
+                android:layout_below="@+id/userpic"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="15dp"
-                android:textSize="30dp"
-                android:text="用户名"/>
+                android:text="用户名"
+                android:textSize="30dp" />
         </RelativeLayout>
+
     </RelativeLayout>
 
     <androidx.cardview.widget.CardView
-        android:layout_width="303dp"
-        android:layout_height="136dp"
-        app:cardCornerRadius="50dp"
-        tools:ignore="MissingConstraints"
+        android:layout_width="308dp"
+        android:layout_height="124dp"
         android:orientation="vertical"
-        tools:layout_editor_absoluteX="62dp"
-        tools:layout_editor_absoluteY="238dp">
+        android:layout_marginTop="235dp"
+        android:layout_centerHorizontal="true"
+        app:cardCornerRadius="50dp"
+        tools:ignore="MissingConstraints">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="历史记录"/>
+            <Button
+                android:id="@+id/attention_button"
+                android:layout_width="103dp"
+                android:layout_height="78dp"
+                android:textSize="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_toLeftOf="@+id/tip"
+                android:layout_centerVertical="true"
+                android:background="@drawable/buttomleft"
+                android:shadowColor="@color/black"
+                android:shadowRadius="6000000"
+                android:text="   我的\n收藏   " />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/tip"
+                android:layout_width="5dp"
+                android:layout_height="110dp"
+                android:layout_centerInParent="true"
+                app:cardCornerRadius="60dp"
+                android:background="@color/lightblue">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/lightblue"/>
+            </androidx.cardview.widget.CardView>
+            <Button
+                android:id="@+id/history_button"
+                android:layout_width="103dp"
+                android:layout_height="78dp"
+                android:textSize="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_toRightOf="@+id/tip"
+                android:layout_centerVertical="true"
+                android:background="@drawable/buttomright"
+                android:shadowColor="@color/black"
+                android:shadowRadius="6000000"
+                android:text="历史   \n   记录" />
+        </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="415dp"
+        android:layout_height="432dp"
+        android:layout_below="@+id/user_massage"
         android:background="@color/white"
-        tools:ignore="MissingConstraints">
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteY="299dp">
 
+
+        <Button
+            android:id="@+id/login"
+            android:layout_width="362dp"
+            android:layout_height="50dp"
+            android:textSize="20dp"
+            android:text="登录/注册"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="90dp"
+            android:background="@drawable/button"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="27dp"
+            tools:layout_editor_absoluteY="411dp" />
+        <Button
+            android:id="@+id/editor_message"
+            android:layout_width="362dp"
+            android:layout_height="50dp"
+            android:textSize="20dp"
+            android:text="编辑个人信息"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/login"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/button"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="27dp"
+            tools:layout_editor_absoluteY="411dp" />
+        <Button
+            android:id="@+id/tuichu"
+            android:layout_width="362dp"
+            android:layout_height="50dp"
+            android:textSize="20dp"
+            android:text="退出登陆"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/editor_message"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/button"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="27dp"
+            tools:layout_editor_absoluteY="411dp" />
     </RelativeLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

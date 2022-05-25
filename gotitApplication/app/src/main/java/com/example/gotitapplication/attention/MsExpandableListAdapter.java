@@ -1,17 +1,27 @@
 package com.example.gotitapplication.attention;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.IdRes;
+import androidx.appcompat.app.AlertDialog;
 
 import com.bumptech.glide.Glide;
 import com.example.gotitapplication.R;
 import com.example.gotitapplication.home.Title;
 import com.example.gotitapplication.home.TitleAdapter;
+import com.example.gotitapplication.sql_collection;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -30,6 +40,7 @@ public class MsExpandableListAdapter extends BaseExpandableListAdapter {
     private ArrayList<ArrayList<Title>> titleList;
     private Context mContext;
     private TitleAdapter adapter;
+    private int visual_key=0;
 
     public MsExpandableListAdapter(ArrayList<GroupBean> gData,ArrayList<ArrayList<Title>> titleList, Context mContext) {
         this.gData = gData;
@@ -82,11 +93,69 @@ public class MsExpandableListAdapter extends BaseExpandableListAdapter {
                     R.layout.hero_group_item, parent, false);
             groupHolder = new ViewHolderGroup();
             groupHolder.group_name = (TextView) convertView.findViewById(R.id.group_name);
+            groupHolder.attention_package_edit = (TextView) convertView.findViewById(R.id.attention_package_edit);
             convertView.setTag(groupHolder);
         }else{
             groupHolder = (ViewHolderGroup) convertView.getTag();
         }
         groupHolder.group_name.setText(gData.get(groupPosition).getName());
+
+        groupHolder.attention_package_edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder customizeDialog = new AlertDialog.Builder(mContext);
+                final View dialogView = LayoutInflater.from(mContext).inflate(R.layout.dialog_customize,null);
+                customizeDialog.setTitle("收藏夹编辑");
+                customizeDialog.setView(dialogView);
+
+                EditText edit_text = (EditText) dialogView.findViewById(R.id.set_package_name);
+                edit_text.setText(gData.get(groupPosition).getName());
+
+                RadioGroup radioGroup = (RadioGroup) dialogView.findViewById(R.id.rg);
+                RadioButton radioButton;
+                if(gData.get(groupPosition).getVisual()==1)
+                    radioButton = (RadioButton) dialogView.findViewById(R.id.yes);
+                else
+                    radioButton = (RadioButton) dialogView.findViewById(R.id.no);
+                radioGroup.check(radioButton.getId());
+                radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+                        visual_key=checkedId == R.id.yes ? 1 : 0;
+                    }
+                });
+
+                customizeDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        sql_collection sql = new sql_collection();
+                        sql.package_sql(edit_text.getText().toString(),
+                                visual_key, gData.get(groupPosition).getPackage_id());
+                        sql.set_package();
+                        gData.get(groupPosition).setName(edit_text.getText().toString());
+                        gData.get(groupPosition).setVisual(visual_key);
+                        Toast.makeText(mContext, "编辑成功", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                customizeDialog.setNeutralButton("删除", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        sql_collection sql = new sql_collection();
+                        sql.package_sql(gData.get(groupPosition).getPackage_id());
+                        sql.delete_package();
+                        Toast.makeText(mContext, "删除成功", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                customizeDialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                customizeDialog.show();
+            }
+        });
+
         return convertView;
     }
 
@@ -120,6 +189,7 @@ public class MsExpandableListAdapter extends BaseExpandableListAdapter {
 
     private static class ViewHolderGroup{
         private TextView group_name;
+        private TextView attention_package_edit;
     }
 
     private static class ViewHolderItem{

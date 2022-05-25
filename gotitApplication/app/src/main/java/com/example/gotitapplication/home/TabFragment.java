@@ -53,6 +53,7 @@ public class TabFragment extends Fragment {
     private static final int ITEM_TECHNOLOGY = 4;       //数码
     private static final int ITEM_LOOKER= 5;            //眼界
     private static final int ITEM_FINANCE = 6;          //财经
+    private static final int ITEM_TIANJIN = 7;          //天津
 
     private List<Title> titleList = new ArrayList<Title>();
     private ListView listView;
@@ -67,6 +68,22 @@ public class TabFragment extends Fragment {
     //这个构造方法是便于各导航同时调用一个fragment
     public TabFragment(String title) {
         mTitle = title;
+
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        System.out.println("类别："+mTitle);
+        itemName = parseString(mTitle);
+        if(account==null) {
+            page += 10;
+            pull();
+        }else if(itemName!=-1)
+            pull_cf();
+        else{
+            pull_attention();
+        }
     }
 
     @Override
@@ -105,10 +122,12 @@ public class TabFragment extends Fragment {
                     if(!(titleList.size()<10)) {
                         int position = listView.getFirstVisiblePosition();
                         int y = listView.getChildAt(0).getTop();
-                        page += 10;
-                        if (itemName != -1)
+                        if(account==null) {
+                            page += 10;
                             pull();
-                        else {
+                        }else if(itemName!=-1)
+                            pull_cf();
+                        else{
                             pull_attention();
                         }
                         System.out.println("位置：" + position);
@@ -127,19 +146,18 @@ public class TabFragment extends Fragment {
             }
         });
 
-        drawerLayout = (DrawerLayout) view.findViewById(R.id.drawer_layout);
 
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 refreshLayout.setRefreshing(true);
                 itemName = parseString(mTitle);
-                page+=10;
                 titleList.clear();
-                if(itemName==0&&account!=null)
-                    pull_cf();
-                else if(itemName!=-1)
+                if(account==null) {
+                    page += 10;
                     pull();
+                }else if(itemName!=-1)
+                    pull_cf();
                 else{
                     pull_attention();
                 }
@@ -149,18 +167,7 @@ public class TabFragment extends Fragment {
         });
 
         //refreshLayout.setRefreshing(true);
-        itemName = parseString(mTitle);
-//        Toast toast= Toast.makeText(view.getContext(), "temp:"+mTitle, Toast.LENGTH_SHORT);
-//        toast.show();
-        if(itemName==0&&account!=null) {
-            System.out.println("jdoainsjdnauw");
-            pull_cf();
-        }
-        else if(itemName!=-1)
-            pull();
-        else{
-            pull_attention();
-        }
+
 
         return view;
     }
@@ -183,6 +190,8 @@ public class TabFragment extends Fragment {
             return ITEM_LOOKER;
         }else if (text.equals("财经新闻")){
             return ITEM_FINANCE;
+        }else if (text.equals("天津新闻")){
+            return ITEM_TIANJIN;
         }else{
             return -1;
         }
@@ -194,9 +203,8 @@ public class TabFragment extends Fragment {
             public void run() { //类型2——Param型
                 try {
                     FormBody.Builder params = new FormBody.Builder();
-                    //System.out.println("页数："+page+"新闻数量"+titleList.size());
+
                     params.add("account",account);
-                    params.add("page",""+page);
                     params.add("type", ""+itemName);
                     OkHttpClient client = new OkHttpClient(); //创建http客户端
                     Request request = new Request.Builder()
@@ -213,10 +221,11 @@ public class TabFragment extends Fragment {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                         String id=jsonObject.getString("id");
                         String title=jsonObject.getString("title");
-                        String description=jsonObject.getString("source");
+                        String description=jsonObject.getString("datetime");
                         String imageurl=jsonObject.getString("img_url_2");
 
-                        Title title1 = new Title(id, title, description, imageurl);
+                        String time[]=description.split(" ");
+                        Title title1 = new Title(id, title, time[0], imageurl);
                         titleList.add(title1);
                     }
                     getActivity().runOnUiThread(new Runnable() {
@@ -263,10 +272,11 @@ public class TabFragment extends Fragment {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                         String id=jsonObject.getString("id");
                         String title=jsonObject.getString("title");
-                        String description=jsonObject.getString("source");
+                        String description=jsonObject.getString("datetime");
                         String imageurl=jsonObject.getString("img_url_2");
 
-                        Title title1 = new Title(id, title, description, imageurl);
+                        String time[]=description.split(" ");
+                        Title title1 = new Title(id, title, time[0], imageurl);
                         titleList.add(title1);
                     }
                     getActivity().runOnUiThread(new Runnable() {
@@ -312,10 +322,11 @@ public class TabFragment extends Fragment {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                         String id=jsonObject.getString("id");
                         String title=jsonObject.getString("title");
-                        String description=jsonObject.getString("source");
+                        String description=jsonObject.getString("datetime");
                         String imageurl=jsonObject.getString("img_url_2");
 
-                        Title title1 = new Title(id, title, description, imageurl);
+                        String time[]=description.split(" ");
+                        Title title1 = new Title(id, title, time[0], imageurl);
                         titleList.add(title1);
                     }
                     getActivity().runOnUiThread(new Runnable() {

@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
-
     <RelativeLayout
         android:id="@+id/list_title"
         android:layout_width="match_parent"
@@ -32,6 +31,7 @@
             android:textColor="@color/white"
             android:text="历史记录"/>
     </RelativeLayout>
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
